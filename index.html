@@ -23,24 +23,23 @@
         .lang-switch {
             position: fixed; top: 20px; right: 320px; z-index: 100;
             background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3);
-            color: white; padding: 5px 15px; border-radius: 20px; cursor: pointer;
-            font-size: 12px; transition: 0.3s;
+            color: white; padding: 6px 18px; border-radius: 20px; cursor: pointer;
+            font-size: 13px; transition: 0.3s; backdrop-filter: blur(5px);
         }
         .lang-switch:hover { background: rgba(255,255,255,0.2); }
 
         .main-layout {
             position: relative; z-index: 10;
-            display: grid;
-            grid-template-columns: 250px 1fr 300px;
+            display: grid; grid-template-columns: 250px 1fr 300px;
             height: 100vh; width: 100vw;
         }
 
+        /* 左側：卡池選單 */
         .pool-selector {
             background: rgba(0,0,0,0.6); backdrop-filter: blur(15px);
             border-right: 1px solid rgba(255,255,255,0.1);
             padding: 20px; display: flex; flex-direction: column;
         }
-
         .pool-item {
             padding: 15px; margin-bottom: 10px; border-radius: 10px;
             background: rgba(255,255,255,0.05); cursor: pointer;
@@ -51,35 +50,33 @@
         .pool-item.special-pool { border-color: #00ffcc; background: rgba(0, 255, 204, 0.1); }
         .del-pool { color: #ff4d4d; font-weight: bold; padding: 5px; }
 
+        /* 中間：召喚區 */
         .summon-stage { display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .pool-title-display { font-size: 3rem; font-weight: 200; letter-spacing: 15px; margin-bottom: 10px; text-shadow: 0 0 20px rgba(255,255,255,0.3); text-align: center;}
+        .pool-title-display { font-size: 3rem; font-weight: 200; letter-spacing: 15px; margin-bottom: 10px; text-shadow: 0 0 20px rgba(255,255,255,0.3); text-align: center; }
         .pity-counter { font-size: 0.9rem; color: #888; margin-bottom: 40px; letter-spacing: 2px; }
-
         .ticket-status {
             background: rgba(255,255,255,0.1); padding: 10px 20px; border-radius: 50px;
             margin-bottom: 20px; border: 1px solid rgba(0, 255, 204, 0.4);
             font-size: 14px; color: #00ffcc;
         }
-
         .summon-btn {
             background: none; border: 1px solid #fff; color: #fff;
             padding: 20px 60px; font-size: 24px; letter-spacing: 5px;
             cursor: pointer; transition: 0.3s; border-radius: 5px;
         }
         .summon-btn:hover:not(:disabled) { background: #fff; color: #000; box-shadow: 0 0 40px rgba(255,255,255,0.6); }
-        .summon-btn:disabled { opacity: 0.3; cursor: not-allowed; border-color: #444; }
+        .summon-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
+        /* 右側：編輯區 */
         .editor-sidebar {
             background: rgba(0,0,0,0.6); backdrop-filter: blur(15px);
             border-left: 1px solid rgba(255,255,255,0.1); padding: 20px;
             overflow-y: auto; display: flex; flex-direction: column;
         }
-
         input, textarea {
             width: 100%; background: rgba(0,0,0,0.4); border: 1px solid #444;
             color: white; border-radius: 5px; padding: 10px; box-sizing: border-box; margin-bottom: 15px;
         }
-
         .history-panel { margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; }
         .history-item {
             padding: 8px 10px; margin-bottom: 5px; background: rgba(255,255,255,0.03);
@@ -89,24 +86,31 @@
         .color-sr { color: #cc66ff; }
         .color-r { color: #33ccff; }
 
+        /* 抽卡結果與確認按鈕優化 */
         #gacha-scene {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             display: none; justify-content: center; align-items: center;
-            z-index: 100; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px);
+            z-index: 100; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px);
         }
-        .card-container { width: 300px; height: 450px; perspective: 1000px; text-align: center; }
+        .card-container { width: 300px; height: 450px; perspective: 1000px; text-align: center; position: relative; }
         .card { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.8s cubic-bezier(0.17, 0.88, 0.32, 1.27); cursor: pointer; }
         .card.flipped { transform: rotateY(180deg); }
         .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .card-front { background: #111; border: 2px solid #333; }
         .card-back { transform: rotateY(180deg); color: #000; padding: 20px; box-sizing: border-box; }
         
+        /* 修正確認收下按鈕 */
         #close-btn {
             position: absolute; bottom: -80px; left: 50%; transform: translateX(-50%);
-            background: white; color: black; border: none; padding: 12px 40px;
-            border-radius: 50px; cursor: pointer; font-weight: bold; font-size: 16px;
-            display: none; z-index: 101;
+            background: white; color: black; border: none; 
+            padding: 12px 60px; /* 加寬內距 */
+            border-radius: 50px; /* 圓角長條 */
+            cursor: pointer; font-weight: bold; font-size: 16px;
+            display: none; transition: 0.3s; box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            white-space: nowrap; z-index: 101;
         }
+        #close-btn:hover { background: #f0f0f0; transform: translateX(-50%) scale(1.05); }
+
         .flash { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; opacity: 0; z-index: 200; pointer-events: none; }
     </style>
 </head>
@@ -117,9 +121,9 @@
 
     <div class="main-layout">
         <div class="pool-selector">
-            <h3 id="t-pool-title" style="letter-spacing: 2px;">召喚卡池</h3>
+            <h3 id="t-poolTitle">召喚卡池</h3>
             <div id="pool-list" style="flex-grow: 1; overflow-y: auto;"></div>
-            <button id="t-add-pool" onclick="createNewPool()" style="width:100%; padding:10px; cursor:pointer; background:#6366f1; border:none; color:white; border-radius:5px;">+ 新增卡池</button>
+            <button id="t-addPool" onclick="createNewPool()" style="width:100%; padding:10px; cursor:pointer; background:#6366f1; border:none; color:white; border-radius:5px;">+ 新增卡池</button>
         </div>
 
         <div class="summon-stage">
@@ -131,19 +135,19 @@
 
         <div class="editor-sidebar">
             <div id="editor-ui">
-                <h3 id="t-setting-title">池子設定</h3>
-                <label id="t-name-label">卡池名稱</label>
+                <h3 id="t-settingTitle">池子設定</h3>
+                <label id="t-nameLabel">卡池名稱</label>
                 <input type="text" id="edit-pool-name" oninput="updateCurrentPoolInfo()">
-                <label id="t-content-label">獎勵內容</label>
+                <label id="t-contentLabel">獎勵內容</label>
                 <textarea id="edit-pool-content" style="height: 150px;" oninput="updateCurrentPoolInfo()"></textarea>
-                <button id="t-save-btn" onclick="saveAllToStorage()" style="width:100%; padding:10px; background:#222; border:1px solid #555; color:white; cursor:pointer; border-radius:5px;">儲存設定</button>
-                <button id="t-reset-pity" onclick="resetPity()" style="width:100%; padding:8px; background:transparent; border:1px solid #ff4d4d; color:#ff4d4d; cursor:pointer; margin-top:10px; border-radius:5px; font-size: 12px;">重置保底</button>
+                <button id="t-saveBtn" onclick="saveAllToStorage()" style="width:100%; padding:10px; background:#222; border:1px solid #555; color:white; cursor:pointer; border-radius:5px;">儲存設定</button>
+                <button id="t-resetPity" onclick="resetPity()" style="width:100%; padding:8px; background:transparent; border:1px solid #ff4d4d; color:#ff4d4d; cursor:pointer; margin-top:10px; border-radius:5px; font-size: 12px;">重置保底</button>
             </div>
 
             <div class="history-panel">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                    <h3 id="t-history-title" style="margin:0">召喚紀錄</h3>
-                    <button id="t-clear-history" onclick="clearHistory()" style="background:none; border:none; color:#888; cursor:pointer; font-size:12px;">清除</button>
+                    <h3 id="t-historyTitle" style="margin:0">召喚紀錄</h3>
+                    <button id="t-clearHistory" onclick="clearHistory()" style="background:none; border:none; color:#888; cursor:pointer; font-size:12px;">清除</button>
                 </div>
                 <div id="history-list-container" class="history-list"></div>
             </div>
@@ -155,69 +159,81 @@
             <div class="card" id="main-card" onclick="flipCard()">
                 <div class="card-face card-front">
                     <div style="font-size: 60px;">✦</div>
-                    <p id="t-tap-hint" style="opacity:0.5">點擊揭曉</p>
+                    <p id="t-tapHint" style="opacity:0.5">點擊揭曉</p>
                 </div>
                 <div class="card-face card-back" id="card-result">
-                    <div class="rarity-badge" id="rarity-tag" style="background: rgba(0,0,0,0.8); color: white; padding: 5px 15px; border-radius: 50px; font-weight: bold; margin-bottom: 20px;">SSR</div>
+                    <div id="rarity-tag" style="background: rgba(0,0,0,0.8); color: white; padding: 5px 15px; border-radius: 50px; font-weight: bold; margin-bottom: 20px;">SSR</div>
                     <h2 id="reward-name">獎項名稱</h2>
                 </div>
             </div>
-            <button id="t-confirm-btn" onclick="closeScene()">確認收下</button>
+            <button id="close-btn" onclick="closeScene()"></button>
         </div>
     </div>
 
     <div class="flash" id="flash"></div>
 
     <script>
-        // --- 語系字典 ---
+        // --- 字典系統 ---
         const i18n = {
             zh: {
                 poolTitle: "召喚卡池", addPool: "+ 新增卡池", settingTitle: "池子設定", nameLabel: "卡池名稱", contentLabel: "獎勵內容",
                 saveBtn: "儲存設定", resetPity: "重置保底", historyTitle: "召喚紀錄", clearHistory: "清除", tapHint: "點擊揭曉",
                 confirmBtn: "確認收下", ticketInfo: "集點進度: {0}/10 | 特殊抽卡券: {1}", pityInfo: "目前累計：{0} 抽", 
                 specialPity: "特殊輪盤：消耗1張券，獎率均分", needTicket: "需要特殊抽卡券", summonBtn: "進行召喚",
-                pityResetMsg: "重置成功", saveMsg: "儲存成功！", confirmDel: "確定刪除？", confirmClear: "確定清除紀錄？",
-                gotTicket: "恭喜！集滿10點，獲得一張特殊抽卡券！"
+                saveMsg: "儲存成功！", confirmDel: "確定刪除？", confirmClear: "確定清除紀錄？",
+                gotTicket: "恭喜！集滿10點，獲得一張特殊抽卡券！",
+                defaultSpecialName: "✨ 特殊輪盤", defaultNormalName: "常駐召喚",
+                defaultSpecialContent: "獎勵 A\n獎勵 B\n獎勵 C",
+                defaultNormalContent: "SSR: 聖劍 @2 !80\nSR: 騎士盾 @15 !20\nR: 藥草"
             },
             en: {
-                poolTitle: "Summon Pools", addPool: "+ Add New Pool", settingTitle: "Pool Settings", nameLabel: "Pool Name", contentLabel: "Reward List",
-                saveBtn: "Save Settings", resetPity: "Reset Pity", historyTitle: "Summon History", clearHistory: "Clear", tapHint: "Tap to Reveal",
-                confirmBtn: "Confirm", ticketInfo: "Points: {0}/10 | Special Tickets: {1}", pityInfo: "Pity Count: {0}", 
-                specialPity: "Special Pool: 1 Ticket, Equal Rates", needTicket: "Need Special Ticket", summonBtn: "Summon",
-                pityResetMsg: "Reset Successful", saveMsg: "Saved Successfully!", confirmDel: "Delete this pool?", confirmClear: "Clear all history?",
-                gotTicket: "Congrats! 10 points reached, earned a Special Ticket!"
+                poolTitle: "Summon Pools", addPool: "+ Add Pool", settingTitle: "Pool Settings", nameLabel: "Pool Name", contentLabel: "Rewards",
+                saveBtn: "Save Settings", resetPity: "Reset Pity", historyTitle: "History", clearHistory: "Clear", tapHint: "Tap to Reveal",
+                confirmBtn: "Confirm", ticketInfo: "Points: {0}/10 | Tickets: {1}", pityInfo: "Pity Count: {0}", 
+                specialPity: "Special Wheel: 1 Ticket, Equal Rates", needTicket: "Need Ticket", summonBtn: "Summon",
+                saveMsg: "Saved Successfully!", confirmDel: "Delete this pool?", confirmClear: "Clear all history?",
+                gotTicket: "Congrats! 10 points reached, earned a Special Ticket!",
+                defaultSpecialName: "✨ Special Wheel", defaultNormalName: "Standard Pool",
+                defaultSpecialContent: "Prize A\nPrize B\nPrize C",
+                defaultNormalContent: "SSR: Excalibur @2 !80\nSR: Knight Shield @15 !20\nR: Herb"
             }
         };
 
         let currentLang = localStorage.getItem('gachaLang') || 'zh';
 
         function toggleLang() {
+            const oldLang = currentLang;
             currentLang = currentLang === 'zh' ? 'en' : 'zh';
             localStorage.setItem('gachaLang', currentLang);
+            
+            allPools.forEach(pool => {
+                if (pool.isFixed) {
+                    if (pool.name === i18n[oldLang].defaultSpecialName) pool.name = i18n[currentLang].defaultSpecialName;
+                    if (pool.content === i18n[oldLang].defaultSpecialContent) pool.content = i18n[currentLang].defaultSpecialContent;
+                } else {
+                    if (pool.name === i18n[oldLang].defaultNormalName) pool.name = i18n[currentLang].defaultNormalName;
+                    if (pool.content === i18n[oldLang].defaultNormalContent) pool.content = i18n[currentLang].defaultNormalContent;
+                }
+            });
             updateUIText();
         }
 
         function updateUIText() {
             const t = i18n[currentLang];
-            document.getElementById('t-pool-title').innerText = t.poolTitle;
-            document.getElementById('t-add-pool').innerText = t.addPool;
-            document.getElementById('t-setting-title').innerText = t.settingTitle;
-            document.getElementById('t-name-label').innerText = t.nameLabel;
-            document.getElementById('t-content-label').innerText = t.contentLabel;
-            document.getElementById('t-save-btn').innerText = t.saveBtn;
-            document.getElementById('t-reset-pity').innerText = t.resetPity;
-            document.getElementById('t-history-title').innerText = t.historyTitle;
-            document.getElementById('t-clear-history').innerText = t.clearHistory;
-            document.getElementById('t-tap-hint').innerText = t.tapHint;
-            document.getElementById('t-confirm-btn').innerText = t.confirmBtn;
+            document.querySelectorAll('[id^="t-"]').forEach(el => {
+                const key = el.id.replace('t-', '');
+                if (t[key]) el.innerText = t[key];
+            });
+            // 特別處理確認按鈕文字
+            document.getElementById('close-btn').innerText = t.confirmBtn;
             renderPoolList();
         }
 
-        // --- 核心邏輯 (整合改良版) ---
+        // --- 資料初始化 ---
         let globalData = JSON.parse(localStorage.getItem('gachaGlobalV9')) || { nonSsrCount: 0, specialTickets: 0 };
         let allPools = JSON.parse(localStorage.getItem('gachaSystemV9')) || [
-            { id: 'special', name: "✨ Special Wheel", content: "Prize A\nPrize B\nPrize C", pity: 0, history: [], isFixed: true },
-            { id: 'normal_1', name: "Standard Pool", content: "SSR: Excalibur @2 !80\nSR: Knight Shield @15 !20\nR: Herb", pity: 0, history: [] }
+            { id: 'special', name: i18n[currentLang].defaultSpecialName, content: i18n[currentLang].defaultSpecialContent, pity: 0, history: [], isFixed: true },
+            { id: 'normal_1', name: i18n[currentLang].defaultNormalName, content: i18n[currentLang].defaultNormalContent, pity: 0, history: [] }
         ];
 
         let currentPoolIdx = 0;
@@ -238,35 +254,28 @@
             const p = allPools[currentPoolIdx];
             const t = i18n[currentLang];
             const btn = document.getElementById('main-summon-btn');
-            
             document.getElementById('pool-display-name').innerText = p.name;
             document.getElementById('edit-pool-name').value = p.name;
             document.getElementById('edit-pool-content').value = p.content;
             document.getElementById('edit-pool-name').disabled = p.isFixed;
-            document.getElementById('t-reset-pity').style.display = p.isFixed ? "none" : "block";
-
+            document.getElementById('t-resetPity').style.display = p.isFixed ? "none" : "block";
             document.getElementById('ticket-info').innerText = t.ticketInfo.replace('{0}', globalData.nonSsrCount).replace('{1}', globalData.specialTickets);
             document.getElementById('pity-info').innerText = p.isFixed ? t.specialPity : t.pityInfo.replace('{0}', p.pity || 0);
-            
-            if(p.isFixed && globalData.specialTickets <= 0) {
-                btn.disabled = true; btn.innerText = t.needTicket;
-            } else {
-                btn.disabled = false; btn.innerText = t.summonBtn;
-            }
+            if(p.isFixed && globalData.specialTickets <= 0) { btn.disabled = true; btn.innerText = t.needTicket; } 
+            else { btn.disabled = false; btn.innerText = t.summonBtn; }
             renderHistory();
         }
 
+        // --- 核心演算法 (SSR 重置保底) ---
         function startGacha() {
             const p = allPools[currentPoolIdx];
             const t = i18n[currentLang];
             if(p.isFixed) { if(globalData.specialTickets <= 0) return; globalData.specialTickets--; }
-
             const lines = p.content.split('\n').filter(l => l.trim() !== '');
             let rewards = [];
-
             if(p.isFixed) {
-                const avgProb = 100 / lines.length;
-                rewards = lines.map(name => ({ rarity: 'Special', name: name.trim(), prob: avgProb }));
+                const avg = 100 / lines.length;
+                rewards = lines.map(n => ({ rarity: 'Special', name: n.trim(), prob: avg }));
             } else {
                 rewards = lines.filter(l => l.includes(':')).map(line => {
                     const [rarityPart, rest] = line.split(':');
@@ -282,20 +291,14 @@
             let finalWin = null;
             if(!p.isFixed) {
                 p.pity = (p.pity || 0) + 1;
-                const eligiblePities = rewards.filter(r => r.pityLimit && p.pity >= r.pityLimit);
-                if (eligiblePities.length > 0) {
-                    eligiblePities.sort((a, b) => b.weight - a.weight);
-                    finalWin = eligiblePities[0];
+                const eligible = rewards.filter(r => r.pityLimit && p.pity >= r.pityLimit);
+                if (eligible.length > 0) {
+                    eligible.sort((a, b) => b.weight - a.weight);
+                    finalWin = eligible[0];
                     if (finalWin.weight === 3) p.pity = 0;
                 } else {
-                    let randomVal = Math.random() * 100;
-                    let currentRange = 0;
-                    for (let r of rewards) {
-                        if (r.prob !== null) {
-                            currentRange += r.prob;
-                            if (randomVal <= currentRange) { finalWin = r; break; }
-                        }
-                    }
+                    let rVal = Math.random() * 100; let cur = 0;
+                    for (let r of rewards) { if (r.prob !== null) { cur += r.prob; if (rVal <= cur) { finalWin = r; break; } } }
                     if (!finalWin) {
                         const noProb = rewards.filter(r => r.prob === null);
                         finalWin = noProb.length > 0 ? noProb[Math.floor(Math.random()*noProb.length)] : rewards[rewards.length-1];
@@ -303,22 +306,17 @@
                     if (finalWin.rarity.toUpperCase().includes('SSR')) p.pity = 0;
                 }
             } else {
-                let r = Math.random() * 100; let cur = 0;
-                for(let item of rewards) { cur += item.prob; if(r <= cur) { finalWin = item; break; } }
+                let rVal = Math.random() * 100; let cur = 0;
+                for(let item of rewards) { cur += item.prob; if(rVal <= cur) { finalWin = item; break; } }
             }
 
             if(!p.isFixed && !finalWin.rarity.toUpperCase().includes('SSR')) {
                 globalData.nonSsrCount++;
                 if(globalData.nonSsrCount >= 10) { globalData.nonSsrCount = 0; globalData.specialTickets++; setTimeout(() => alert(t.gotTicket), 800); }
             }
-
-            const now = new Date();
-            p.history.push({ rarity: finalWin.rarity, name: finalWin.name, time: `${now.getHours()}:${now.getMinutes().toString().padStart(2,'0')}` });
+            p.history.push({ rarity: finalWin.rarity, name: finalWin.name, time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) });
             if(p.history.length > 50) p.history.shift();
-
-            localStorage.setItem('gachaSystemV9', JSON.stringify(allPools));
-            localStorage.setItem('gachaGlobalV9', JSON.stringify(globalData));
-            updateUIStatus(); showResult(finalWin, p.isFixed);
+            saveData(); updateUIStatus(); showResult(finalWin, p.isFixed);
         }
 
         function showResult(win, isSpecial) {
@@ -326,38 +324,32 @@
             document.getElementById('rarity-tag').innerText = win.rarity;
             const back = document.getElementById('card-result');
             const r = win.rarity.toUpperCase();
-            if(isSpecial) {
-                back.style.background = 'linear-gradient(135deg, #00ffcc, #0099ff)'; back.style.boxShadow = 'var(--special-glow)';
-            } else if(r.includes('SSR')) {
-                back.style.background = 'var(--rarity-ssr)'; back.style.boxShadow = 'var(--gold-glow)';
-            } else if(r.includes('SR')) {
-                back.style.background = 'var(--rarity-sr)'; back.style.boxShadow = '0 0 30px #cc66ff';
-            } else {
-                back.style.background = 'var(--rarity-r)'; back.style.boxShadow = '0 0 20px #33ccff';
-            }
+            if(isSpecial) { back.style.background = 'linear-gradient(135deg, #00ffcc, #0099ff)'; back.style.boxShadow = 'var(--special-glow)'; }
+            else if(r.includes('SSR')) { back.style.background = 'var(--rarity-ssr)'; back.style.boxShadow = 'var(--gold-glow)'; }
+            else if(r.includes('SR')) { back.style.background = 'var(--rarity-sr)'; back.style.boxShadow = '0 0 30px #cc66ff'; }
+            else { back.style.background = 'var(--rarity-r)'; back.style.boxShadow = '0 0 20px #33ccff'; }
             document.getElementById('gacha-scene').style.display = 'flex';
             document.getElementById('main-card').classList.remove('flipped');
             document.getElementById('close-btn').style.display = 'none';
             const flash = document.getElementById('flash');
-            flash.style.transition = 'none'; flash.style.opacity = '1';
-            setTimeout(() => { flash.style.transition = 'opacity 0.8s'; flash.style.opacity = '0'; }, 50);
+            flash.style.transition = 'none'; flash.opacity = '1';
+            setTimeout(() => { flash.style.transition = 'opacity 0.8s'; flash.opacity = '0'; }, 50);
         }
 
         function renderHistory() {
             const container = document.getElementById('history-list-container');
             const p = allPools[currentPoolIdx];
-            container.innerHTML = p.history.length === 0 ? '' : '';
+            container.innerHTML = '';
             [...p.history].reverse().forEach(item => {
                 const div = document.createElement('div');
                 div.className = 'history-item';
-                let r = item.rarity.toUpperCase();
-                let c = r.includes('SSR') ? 'color-ssr' : (r.includes('SR') ? 'color-sr' : 'color-r');
+                let c = item.rarity.toUpperCase().includes('SSR') ? 'color-ssr' : (item.rarity.toUpperCase().includes('SR') ? 'color-sr' : 'color-r');
                 div.innerHTML = `<span class="${c}">[${item.rarity}]</span><span>${item.name}</span><span style="color:#444;font-size:10px">${item.time}</span>`;
                 container.appendChild(div);
             });
         }
 
-        // --- 基礎背景與功能 (略) ---
+        // --- 基礎背景與輔助 ---
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -370,24 +362,21 @@
 
         function switchPool(idx) { currentPoolIdx = idx; updateUIStatus(); }
         function createNewPool() {
-            allPools.push({ id: Date.now().toString(), name: "New Pool", content: "SSR: Win @1 !100\nR: Lose", pity: 0, history: [] });
+            allPools.push({ id: Date.now().toString(), name: i18n[currentLang].defaultNormalName, content: i18n[currentLang].defaultNormalContent, pity: 0, history: [] });
             currentPoolIdx = allPools.length - 1; renderPoolList();
         }
         function deletePool(idx, e) {
-            e.stopPropagation(); if(confirm(i18n[currentLang].confirmDel)) { allPools.splice(idx, 1); currentPoolIdx = 0; renderPoolList(); }
+            e.stopPropagation(); if(confirm(i18n[currentLang].confirmDel)) { allPools.splice(idx, 1); currentPoolIdx = 0; renderPoolList(); saveData(); }
         }
         function updateCurrentPoolInfo() {
             allPools[currentPoolIdx].name = document.getElementById('edit-pool-name').value;
             allPools[currentPoolIdx].content = document.getElementById('edit-pool-content').value;
             renderPoolList();
         }
-        function saveAllToStorage() {
-            localStorage.setItem('gachaSystemV9', JSON.stringify(allPools));
-            localStorage.setItem('gachaGlobalV9', JSON.stringify(globalData));
-            alert(i18n[currentLang].saveMsg);
-        }
-        function resetPity() { allPools[currentPoolIdx].pity = 0; updateUIStatus(); }
-        function clearHistory() { if(confirm(i18n[currentLang].confirmClear)) { allPools[currentPoolIdx].history = []; renderHistory(); } }
+        function saveData() { localStorage.setItem('gachaSystemV9', JSON.stringify(allPools)); localStorage.setItem('gachaGlobalV9', JSON.stringify(globalData)); }
+        function saveAllToStorage() { saveData(); alert(i18n[currentLang].saveMsg); }
+        function resetPity() { allPools[currentPoolIdx].pity = 0; updateUIStatus(); saveData(); }
+        function clearHistory() { if(confirm(i18n[currentLang].confirmClear)) { allPools[currentPoolIdx].history = []; renderHistory(); saveData(); } }
         function flipCard() { document.getElementById('main-card').classList.add('flipped'); setTimeout(() => { document.getElementById('close-btn').style.display = 'block'; }, 600); }
         function closeScene() { document.getElementById('gacha-scene').style.display = 'none'; }
 
